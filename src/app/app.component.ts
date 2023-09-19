@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { ModalRef, ModalService } from './shared/components/modal/services/modal.service';
 
 @Component({
   selector: 'app-root',
@@ -7,20 +7,17 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'a11y-p1';
-  public form: FormGroup = null;
+  @ViewChild('modal') public modalTemplateRef: TemplateRef<any>;
+  title = 'a11y-p2';
+  public firstName = 'Flávio';
+  public modalRef: ModalRef;
 
-  constructor(formBuilder: FormBuilder) {
-    this.form = formBuilder.group({
-      yesNoAnswer: [{
-        value: 'no',
-        disabled: false
-      }]
+  constructor(private modalService: ModalService) {}
+
+  public show(): void {
+    this.modalRef = this.modalService.open({
+      templateRef: this.modalTemplateRef,
+      title: 'User Details'
     });
-  }
-
-  public submit(): void {
-    this.form.get('yesNoAnswer').disable();
-    console.log(this.form.value);
   }
 }
